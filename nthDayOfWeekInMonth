@@ -1,0 +1,159 @@
+'use strict';
+
+ 
+function getNthDayInMonth(nth, day, month, year) {
+
+  // Ensure nth is valid (1 to 5)
+
+  if (nth < 1 || nth > 5) {
+
+    return {
+
+      success: false,
+
+      error: 'Invalid nth value. Must be between 1 and 5.',
+
+    };
+
+  }
+
+
+  // Ensure day is valid (0 for Sunday to 6 for Saturday)
+
+  if (day < 0 || day > 6) {
+
+    return {
+
+      success: false,
+
+      error: 'Invalid day value. Must be between 0 and 6.',
+
+    };
+
+  }
+
+ 
+
+  let d = new Date(year, month);
+
+  d.setDate(1 + ((7 - d.getDay() + day) % 7) + (nth - 1) * 7);
+
+ 
+
+  // Check if the calculated date is still within the desired month
+
+  // (example: the 5th friday of Jan 2023 does not exist)
+
+  if (d.getMonth() !== month) {
+
+    return {
+
+      success: false,
+
+      error: `The ${nth} ${getDayName(day)} in ${getMonthName(
+
+        month
+
+      )} ${year} does not exist.`,
+
+    };
+
+  }
+
+ 
+
+  return { success: true, date: d };
+
+}
+
+ 
+
+//get the name of the day
+
+function getDayName(day) {
+
+  const dayNames = [
+
+    'Sunday',
+
+    'Monday',
+
+    'Tuesday',
+
+    'Wednesday',
+
+    'Thursday',
+
+    'Friday',
+
+    'Saturday',
+
+  ];
+
+  return dayNames[day];
+
+}
+
+ 
+
+//get the name of the month
+
+function getMonthName(month) {
+
+  const monthNames = [
+
+    'January',
+
+    'February',
+
+    'March',
+
+    'April',
+
+    'May',
+
+    'June',
+
+    'July',
+
+    'August',
+
+    'September',
+
+    'October',
+
+    'November',
+
+    'December',
+
+  ];
+
+  return monthNames[month];
+
+}
+
+ 
+
+// Example usage: Get the 5th Fri in January 2023
+
+//For day (x,DAY,x,x)       --> (0 for Sunday, 1 for Monday... 6 for Saturday etc...)
+
+//For month (x,x,MONTH,x)   --> (0 for Jan, 1 for Feb... 11 for December... etc)
+
+ 
+
+const result = getNthDayInMonth(2, 6, 9, 2027);
+
+ 
+
+if (result.success) {
+
+  console.log(result.date);
+
+} else {
+
+  console.error(result.error);
+
+}
+
+ 
