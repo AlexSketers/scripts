@@ -1,0 +1,45 @@
+const startYear = 2023;
+
+const numYearsToCheck = 10; // You can change this to check a different number of years
+
+const firstFridayDatesForRange = getFirstFridayDatesForRange(
+
+  startYear,
+
+  numYearsToCheck
+
+);
+
+ 
+
+function getFirstFridayDatesForRange(startYear, numYears) {
+
+  const firstFridayDates = [];
+
+ 
+
+  for (let year = startYear; year < startYear + numYears; year++) {
+
+    for (let month = 0; month < 12; month++) {
+
+      const firstDayOfMonth = new Date(year, month, 1);
+
+      const dayOfWeek = firstDayOfMonth.getDay();
+
+      const daysToAdd = (5 - dayOfWeek + 7) % 7; // Calculate days to add to reach Friday
+
+      const firstFridayDate = new Date(year, month, 1 + daysToAdd);
+
+      firstFridayDates.push({ year, month: month + 1, date: firstFridayDate });
+
+    }
+
+  }
+
+ 
+
+  return firstFridayDates;
+
+}
+
+ 
